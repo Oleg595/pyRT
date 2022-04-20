@@ -12,7 +12,7 @@ def create_clip(t):
     height = 400
 
     camera = PerspectiveCamera(width, height)
-    camera.setView(Vec3(0., -15., 15.), Vec3(0., 0., 0.), Vec3(0., 0., 1.))
+    camera.setView(Vec3(0., 1., 15.), Vec3(0., 0., 0.), Vec3(0., 0., 1.))
 
     scene = Scene()
 
@@ -21,7 +21,7 @@ def create_clip(t):
     x = radius * math.cos(t * p)
     y = radius * math.sin(t * p)
 
-    scene.addLight(SpotLight(position=Vec3(x, y, 10), direction=Vec3(0, 0, -10), p=10))
+    scene.addLight(SpotLight(position=Vec3(x / 10, y / 10, 5), direction=Vec3(-x, -y, -2), p=5, a=0.04))
 
     floormaterial = PhongMaterial(color=Vec3(0.5, 0.5, 0.5))
     sphere0material = PhongMaterial(color=Vec3(1., 0., 0.))
@@ -44,10 +44,10 @@ def create_clip(t):
 
     scene.setCamera(camera)
 
-    engine = SimpleRT(shadow=True, iterations=2)
+    engine = SimpleRT(shadow=True, iterations=1)
 
     image = engine.render(scene)
     return image.data
 
-clip = mpy.VideoClip(create_clip, duration=4) # duration 4 seconds
-clip.write_gif("custom_example.gif", fps=15)
+clip = mpy.VideoClip(create_clip, duration=2) # duration 4 seconds
+clip.write_gif("custom_example_up.gif", fps=10)
